@@ -1,5 +1,4 @@
-# SampleTask
-
+# SimpleTask
 Create a new branch and apply the following changes to it:
 
 1. Create a new Activity where you'll be integrating with https://api.androidhive.info/pizza/?format=xml to get a list of foods, their prices and short descriptions. You should satisfy all the following
@@ -23,3 +22,5 @@ Things to keep in mind
 - Project structure
 - Using all the provided classes in the package named `bases`
 - All the provided classes should be used
+
+
