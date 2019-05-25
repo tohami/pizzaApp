@@ -60,4 +60,13 @@
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_take_pic"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_margin="16dp"/>
 </android.support.constraint.ConstraintLayout>

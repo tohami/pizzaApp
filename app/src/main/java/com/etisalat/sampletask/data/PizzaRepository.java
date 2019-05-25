@@ -15,6 +15,10 @@ import java.util.concurrent.Executors;
 
 import io.reactivex.subjects.PublishSubject;
 
+/**
+ * pizza repo that manage data access
+ * support the presenter with data either from db or api
+ */
 public class PizzaRepository extends BaseRepository
         implements PizzaServiceClient.ApiCallback<List<PizzaApiResponse.PizzaItem>> {
 
@@ -27,19 +31,30 @@ public class PizzaRepository extends BaseRepository
         this.executer = Executors.newSingleThreadExecutor() ;
     }
 
+    /**
+     * return the already existing pizza rx subject or new subject if the existing completed
+     * or has error
+     */
     public PublishSubject<PizzaResultModel> getPizzaSubject() {
         if(pizzaSubject.hasComplete() || pizzaSubject.hasThrowable())
             pizzaSubject = PublishSubject.create() ;
-
         return pizzaSubject;
     }
 
 
-    public void getPizza() {
+    /**
+     * return the cached version of data
+     */
+    public void getCachedPizza() {
         updatePizzaList(false);
-        getPizzaFromApi();
     }
 
+    /**
+     * push the cached version of pizza in the subject to be cached by presenter
+     * always relay on cached version
+     * check the readme to figure out how it work
+     * @param fromApi
+     */
     private void updatePizzaList(boolean fromApi) {
         executer.execute(() -> {
             Log.d("Repo", "do on next");
@@ -55,15 +70,27 @@ public class PizzaRepository extends BaseRepository
         return localCache.pizzaList();
     }
 
-    private void getPizzaFromApi() {
+    /**
+     * get pizza from api with ApiCallback contract
+     */
+    public void getPizzaFromApi() {
         PizzaServiceClient.getPizzaList(apiService , this);
     }
 
+    /**
+     * when api successfull return data , insert it into cache then
+     * push the new cache into the rx subject
+     * @param items
+     */
     @Override
     public void onSuccess(List<PizzaApiResponse.PizzaItem> items) {
         localCache.insert(items, () -> updatePizzaList(true));
     }
 
+    /**
+     * forward the error to the presenter using subject
+     * @param errorMessage
+     */
     @Override
     public void onError(String errorMessage) {
         pizzaSubject.onError(new Throwable(errorMessage));

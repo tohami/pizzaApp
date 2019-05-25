@@ -54,8 +54,8 @@ public abstract class BaseActivity<T extends BasePresenter>
         progressDialog.show();
     }
 
-    protected void showSnackbar(String message, @NonNull View parentView) {
-        Snackbar snackbar = Snackbar.make(parentView, message, Snackbar.LENGTH_LONG);
+    protected void showSnackbar(String message) {
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
         View view = snackbar.getView();
         TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
         tv.setTextColor(Color.WHITE);

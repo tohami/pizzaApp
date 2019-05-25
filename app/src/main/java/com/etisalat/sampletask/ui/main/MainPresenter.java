@@ -19,7 +19,7 @@ public class MainPresenter extends BasePresenter<MainPresenterListener> {
         this.compositeDisposable = new CompositeDisposable();
     }
 
-    void refreshPizzaList() {
+    void refreshPizzaList(boolean getCache) {
         listener.updateProgressState(true);
         compositeDisposable.add(
                 pizzaRepository
@@ -34,7 +34,10 @@ public class MainPresenter extends BasePresenter<MainPresenterListener> {
                                 () -> listener.updateProgressState(false))
         );
 
-        pizzaRepository.getPizza();
+        if(getCache) {
+            pizzaRepository.getCachedPizza();
+        }
+        pizzaRepository.getPizzaFromApi();
     }
 
     public void deAttach() {

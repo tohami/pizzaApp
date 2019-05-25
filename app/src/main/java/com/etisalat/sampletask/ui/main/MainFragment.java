@@ -1,8 +1,10 @@
 package com.etisalat.sampletask.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -18,8 +20,11 @@ import com.etisalat.sampletask.bases.BaseFragment;
 import com.etisalat.sampletask.di.Injection;
 import com.etisalat.sampletask.model.PizzaResultModel;
 import com.etisalat.sampletask.ui.adapter.PizzaAdapter;
+import com.etisalat.sampletask.ui.pickimage.PickImageActivity;
 
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 
@@ -48,6 +53,14 @@ public class MainFragment extends BaseFragment<MainPresenter> implements MainPre
         lastUpdateAt = toolbarView.findViewById(R.id.tvLastUpdateAt) ;
         RecyclerView pizzaRv = view.findViewById(R.id.rvPizza) ;
         swipeRefreshLayout = view.findViewById(R.id.swipeLayout) ;
+        FloatingActionButton fab = view.findViewById(R.id.fab) ;
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getActivity() , PickImageActivity.class));
+            }
+        });
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbarView) ;
 
@@ -56,10 +69,12 @@ public class MainFragment extends BaseFragment<MainPresenter> implements MainPre
 
         pizzaRv.setAdapter(pizzaAdapter);
 
-        swipeRefreshLayout.setOnRefreshListener(() -> presenter.refreshPizzaList());
+        swipeRefreshLayout.setOnRefreshListener(() -> presenter.refreshPizzaList(false));
 
-        presenter.refreshPizzaList();
+        presenter.refreshPizzaList(true);
+
     }
+
 
     @Override
     protected MainPresenter setupPresenter() {

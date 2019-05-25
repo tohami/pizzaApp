@@ -32,10 +32,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.CustomViewHo
 
     @Override
     public void onBindViewHolder(@NotNull final CustomViewHolder holder, final int position) {
-        PizzaApiResponse.PizzaItem pizzaItem = pizzaItems.get(position);
-        holder.pizzaName.setText(pizzaItem.getName());
-        holder.pizzaCost.setText(pizzaItem.getCost());
-        holder.pizzaDesc.setText(pizzaItem.getDescription());
+        holder.bind(pizzaItems.get(position));
     }
 
     @Override
@@ -55,6 +52,12 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.CustomViewHo
             pizzaCost = itemView.findViewById(R.id.tvPrice);
             pizzaDesc = itemView.findViewById(R.id.tvPizzaDesc);
 
+        }
+
+        void bind(PizzaApiResponse.PizzaItem item){
+            pizzaName.setText(item.getName());
+            pizzaCost.setText(item.getCost());
+            pizzaDesc.setText(item.getDescription());
         }
     }
 
