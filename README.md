@@ -1,4 +1,4 @@
-# Pizza app “Etisalat task”
+# Pizza app
 
 ## The architecture
 
@@ -18,6 +18,10 @@
 - I have not used dagger for dependency injection, instead I build simple DI manually to provide
     the required dependency, for task purpose.
 - I use RX only to manage the communication between the Repo and Presenter.
+- In the Repository i am not forward the Api response directry to the presenter ,
+    instead i wait the data to be save in db then i query db for new data ,
+    this give me single source of trust "in this situation the db" to avoid data redundancy,
+    and easy maintain data from different sources .
 - I have built a similar sample for movie db. in MVVM using the new architecture component. It
     provide cleaner code and better functionality and state management
     Check the sample here https://github.com/tohami/MovieDB-example
